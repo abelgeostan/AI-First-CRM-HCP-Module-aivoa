@@ -20,6 +20,7 @@ Log this meeting...
 EDIT
 - User wants to change an existing interaction.
 - User modifies any field.
+- This includes adding or updating follow-up actions.
 
 Examples:
 Change the sentiment to Positive.
@@ -29,6 +30,8 @@ Remove the attendee.
 Correct the doctor's name.
 Modify the meeting date.
 Change the topic discussed.
+Add a follow-up action.
+Update the follow-up task.
 
 SEARCH
 Examples:
@@ -78,12 +81,18 @@ Return a JSON object with one property named updates.
 
 The value of updates must be an object containing only the changed fields.
 
+Use the exact schema field names when possible.
+If the user is adding or updating a follow-up action, use the field name follow_up_actions.
+
 Examples:
 User: change the sentiment to Positive
 Output: {"updates": {"sentiment": "Positive"}}
 
 User: update the interaction type to Call and add Dr. Michael Lee
 Output: {"updates": {"interaction_type": "Call", "attendees": ["Dr. Michael Lee"]}}
+
+User: add follow up action: Review dosage instructions
+Output: {"updates": {"follow_up_actions": "Review dosage instructions"}}
 """
 
 

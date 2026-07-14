@@ -20,6 +20,18 @@ from services import (
 def detect_intent(state: AgentState):
 
     message = state["messages"][-1].content
+    normalized = message.lower()
+
+    if state["current_log_id"] is not None and (
+        "follow up action" in normalized
+        or "follow-up action" in normalized
+        or "add follow up" in normalized
+        or "add follow-up" in normalized
+        or "followup action" in normalized
+    ):
+        return {
+            "intent": "EDIT"
+        }
 
     intent = classify_intent(message)
 
