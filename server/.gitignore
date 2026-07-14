@@ -1,0 +1,118 @@
+```gitignore
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# ==========================
+# IDEs
+# ==========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ==========================
+# OS Files
+# ==========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================
+# Logs
+# ==========================
+*.log
+logs/
+
+# ==========================
+# Pytest
+# ==========================
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# ==========================
+# MyPy
+# ==========================
+.mypy_cache/
+
+# ==========================
+# Ruff
+# ==========================
+.ruff_cache/
+
+# ==========================
+# Pyright
+# ==========================
+.pyright/
+
+# ==========================
+# Jupyter
+# ==========================
+.ipynb_checkpoints/
+
+# ==========================
+# Build / Distribution
+# ==========================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ==========================
+# Alembic
+# ==========================
+# Uncomment if you don't want to version migrations
+# alembic/versions/
+
+# ==========================
+# SQLite
+# ==========================
+*.db
+*.sqlite3
+
+# ==========================
+# Temporary Files
+# ==========================
+*.tmp
+*.bak
+*.cache
+
+# ==========================
+# Node (if using React/Vite frontend)
+# ==========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Vite
+dist/
+
+# ==========================
+# Docker
+# ==========================
+*.pid
+docker-compose.override.yml
+
+# ==========================
+# Misc
+# ==========================
+.cache/
+```
