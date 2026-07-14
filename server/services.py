@@ -59,6 +59,28 @@ def edit_interaction(
             "reply": "I couldn't understand which fields to update."
         }
 
+    def normalize_field_name(key: str) -> str:
+        mapping = {
+            "follow_up_action": "follow_up_actions",
+            "follow up action": "follow_up_actions",
+            "follow-up-action": "follow_up_actions",
+            "follow up actions": "follow_up_actions",
+            "follow-up-actions": "follow_up_actions",
+            "followup_action": "follow_up_actions",
+            "followupactions": "follow_up_actions",
+            "topic": "topics_discussed",
+            "topics": "topics_discussed",
+            "topic_discussed": "topics_discussed",
+            "topic-discussed": "topics_discussed",
+            "materials": "materials_shared",
+            "materials_shared": "materials_shared",
+            "samples": "samples_distributed",
+            "samples_distributed": "samples_distributed",
+        }
+
+        normalized = key.strip().lower().replace("-", "_").replace(" ", "_")
+        return mapping.get(normalized, normalized)
+
     db = SessionLocal()
 
     log = (
@@ -78,11 +100,21 @@ def edit_interaction(
             "reply": "Interaction not found."
         }
 
+    normalized_updates = {}
+
     for key, value in updates.items():
+        normalized_key = normalize_field_name(key)
+        if hasattr(log, normalized_key):
+            normalized_updates[normalized_key] = value
 
-        if hasattr(log, key):
+    if not normalized_updates:
+        db.close()
+        return {
+            "reply": "No valid fields were found to update. Please use the field names from the interaction form.",
+        }
 
-            setattr(log, key, value)
+    for key, value in normalized_updates.items():
+        setattr(log, key, value)
 
     db.commit()
     db.refresh(log)
