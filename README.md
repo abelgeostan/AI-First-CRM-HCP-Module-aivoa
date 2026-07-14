@@ -24,7 +24,7 @@ An AI-powered CRM assistant for logging, editing, searching, and managing Health
 - FastAPI
 - LangGraph
 - LangChain
-- Groq (Llama 3.1 8B Instant)
+- Groq 
 - SQLAlchemy
 - PostgreSQL
 - Alembic
