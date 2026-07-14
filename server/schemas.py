@@ -1,8 +1,8 @@
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing_extensions import Annotated, TypedDict
 
 
@@ -21,19 +21,41 @@ class HCPFormState(BaseModel):
 
     time: Optional[str] = None
 
-    attendees: list[str] = Field(default_factory=list)
+    attendees: Optional[Union[list[str], str]] = Field(default_factory=list)
 
-    topics_discussed: Optional[str] = None
+    topics_discussed: Optional[Union[str, list[str]]] = None
 
-    materials_shared: list[str] = Field(default_factory=list)
+    materials_shared: Optional[Union[list[str], str]] = Field(default_factory=list)
 
-    samples_distributed: list[str] = Field(default_factory=list)
+    samples_distributed: Optional[Union[list[str], str]] = Field(default_factory=list)
 
     sentiment: Optional[str] = None
 
     outcomes: Optional[str] = None
 
     follow_up_actions: Optional[str] = None
+
+    @field_validator("attendees", "materials_shared", "samples_distributed", mode="before")
+    @classmethod
+    def normalize_list_fields(cls, value):
+        if value is None:
+            return []
+        if isinstance(value, str):
+            return [value]
+        if isinstance(value, list):
+            return [str(item) for item in value if item is not None]
+        return [str(value)]
+
+    @field_validator("topics_discussed", mode="before")
+    @classmethod
+    def normalize_topics(cls, value):
+        if value is None:
+            return None
+        if isinstance(value, list):
+            return ", ".join(str(item) for item in value if item is not None)
+        if isinstance(value, str):
+            return value
+        return str(value)
 
 
 # --------------------------------------------------

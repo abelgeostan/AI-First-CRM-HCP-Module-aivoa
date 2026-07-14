@@ -32,7 +32,8 @@ Change the topic discussed.
 
 SEARCH
 Examples:
-Search for Abel.
+Search for log with name Smith.
+
 Find all oncology meetings.
 Show all logs.
 
@@ -58,6 +59,11 @@ EXTRACTION_PROMPT = """
 Extract the HCP interaction.
 
 Leave unknown values as null.
+give date as current date if not provided.
+date format should be DD/MM/YYYY
+the sentiment should be one of the following: Positive, Neutral, Negative, Unknown
+the time should be the current time if not provided. 
+time format should be HH:MM AM/PM
 
 Never invent information.
 """
@@ -68,7 +74,16 @@ Extract only the fields that should be updated.
 
 Ignore every field that should remain unchanged.
 
-Return only the changed fields.
+Return a JSON object with one property named updates.
+
+The value of updates must be an object containing only the changed fields.
+
+Examples:
+User: change the sentiment to Positive
+Output: {"updates": {"sentiment": "Positive"}}
+
+User: update the interaction type to Call and add Dr. Michael Lee
+Output: {"updates": {"interaction_type": "Call", "attendees": ["Dr. Michael Lee"]}}
 """
 
 

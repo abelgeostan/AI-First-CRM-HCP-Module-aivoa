@@ -48,7 +48,16 @@ def edit_interaction(
     message: str,
 ):
 
-    updates = extract_updates(message).updates
+    extracted_updates = extract_updates(message)
+    updates = getattr(extracted_updates, "updates", None)
+
+    if updates is None and isinstance(extracted_updates, dict):
+        updates = extracted_updates.get("updates")
+
+    if updates is None:
+        return {
+            "reply": "I couldn't understand which fields to update."
+        }
 
     db = SessionLocal()
 
